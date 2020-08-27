@@ -1,7 +1,7 @@
 CC = go build
 CFLAGS = -v
 
-VERSION = 0.1
+VERSION = 0.2
 
 TARGET = tistory-to-md-$(VERSION)_x64
 

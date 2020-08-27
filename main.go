@@ -54,6 +54,9 @@ func main() {
 	}
 	work.Wait()
 	// getPostRead(token, blogName, "106", work)
+
+	color.Notice.Println("엔터를 입력 하시면 프로그램이 종료됩니다.")
+	fmt.Scanln()
 }
 
 func getTokenServe() {
