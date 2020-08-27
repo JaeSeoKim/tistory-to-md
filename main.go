@@ -143,7 +143,6 @@ func getPostRead(token, blogName, postID string, work *sync.WaitGroup) {
 
 	// Parsing title
 	title := doc.Find("tistory item slogan").Text()
-	// title := doc.Find("tistory item title").Text()
 	// Parsing content(html)
 	content := doc.Find("tistory item content").Text()
 	// Parsing date
