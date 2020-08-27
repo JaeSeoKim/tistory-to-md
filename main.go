@@ -146,11 +146,9 @@ func getPostRead(token, blogName, postID string, work *sync.WaitGroup) {
 	// Parsing content(html)
 	content := doc.Find("tistory item content").Text()
 	// Parsing date
-	loc, err := time.LoadLocation("Asia/Seoul")
+	t, err := time.Parse("2006-01-02 15:04:05", doc.Find("tistory item date").Text())
 	checkErr(err)
-	t, err := time.ParseInLocation("2006-01-02 15:04:05", doc.Find("tistory item date").Text(), loc)
-	checkErr(err)
-	date := t.String()
+	date := t.Format("2006-01-02 15:04:05")
 	// Parsing tags
 	var tags string
 	doc.Find("tistory item tags tag").Each(func(i int, s *goquery.Selection) {

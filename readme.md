@@ -32,6 +32,8 @@ URL로 들어가 Tistory 인증후 화면에 나오는 AccessToken를 입력해�
 
 ## Release History
 
+* 0.3
+    * Gatsby MarkdownRemarkFrontmatter를 위해 Time Paser Format 변경
 * 0.2
     * 모든 작업 종료 후 Terminal 대기 추가.
 * 0.1
