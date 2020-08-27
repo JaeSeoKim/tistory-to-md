@@ -28,7 +28,8 @@ URL로 들어가 Tistory 인증후 화면에 나오는 AccessToken를 입력해�
 ```
 실행 후 `./result/{username}/{postTitle}.md` `./result/{username}/image/{postTitle}/*` 경로에 파일이 백업 된 것을 확인 할 수 있습니다.
 
-개발자의 블로그에서만 테스트를 하여서 오류 발견시 `Issue` 남겨주세요
+개발자의 블로그에서만 테스트를 하여서 오류가 많습니다!
+오류 발견시 `Issue` 남겨주세요
 
 ## Release History
 
