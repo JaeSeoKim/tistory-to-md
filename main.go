@@ -189,7 +189,7 @@ func convertHTMLToMd(html, blogName, title string) string {
 		parts := strings.Split(s, "|")
 
 		imageURL := "https://blog.kakaocdn.net/dn/" + strings.Split(parts[1], "@")[1]
-		fileName := strings.Split(strings.Split(parts[1], "@")[1], "/")[0] + strings.Split(strings.Split(parts[1], "@")[1], "/")[1]
+		fileName := strings.Split(strings.Split(parts[1], "@")[1], "/")[2] + strings.Split(strings.Split(parts[1], "@")[1], "/")[3]
 		path := "./result/" + blogName + "/image/" + title + "/" + fileName
 		saveImage(imageURL, path)
 		return "<img src='./image/" + title + "/" + fileName + "' />"
@@ -211,7 +211,7 @@ func convertHTMLToMd(html, blogName, title string) string {
 		if strings.Split(src, ".")[0] == "http://kage" {
 			imageURL := strings.Split(doc.Find(".cap1").Text(), `"`)[1]
 			if strings.Split(imageURL, ":")[0] == "https" || strings.Split(imageURL, ":")[0] == "http" {
-				fileName := strings.Split(imageURL, "/")[5] + strings.Split(imageURL, "/")[6]
+				fileName := strings.Split(imageURL, "/")[6] + strings.Split(imageURL, "/")[7]
 				path := "./result/" + blogName + "/image/" + title + "/" + fileName
 				saveImage(imageURL, path)
 				return "<img src='./image/" + title + "/" + fileName + "' />"
@@ -222,9 +222,9 @@ func convertHTMLToMd(html, blogName, title string) string {
 			}
 		}
 		imageURL := src
-		if strings.Split(imageURL, ":")[0] == "http" {
+		if strings.Split(imageURL, ":")[0] == "https" || strings.Split(imageURL, ":")[0] == "http" {
 			fmt.Println(imageURL)
-			fileName := strings.Split(imageURL, "/")[5] + strings.Split(imageURL, "/")[6]
+			fileName := strings.Split(imageURL, "/")[6] + strings.Split(imageURL, "/")[7]
 			path := "./result/" + blogName + "/image/" + title + "/" + fileName
 			saveImage(imageURL, path)
 			return "<img src='./image/" + title + "/" + fileName + "' />"
@@ -241,7 +241,7 @@ func convertHTMLToMd(html, blogName, title string) string {
 }
 
 func saveImage(URL, path string) {
-	defer color.Info.Prompt("Save Image... : " + URL)
+	defer color.Info.Prompt("Save Image... : " + URL + "\n" + path)
 	response, err := http.Get(URL)
 	checkErr(err)
 	defer response.Body.Close()

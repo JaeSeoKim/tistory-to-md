@@ -33,6 +33,8 @@ URL로 들어가 Tistory 인증후 화면에 나오는 AccessToken를 입력해�
 
 ## Release History
 
+* 0.4
+    * FIX: img확장자 저장 안되는 버그 수정
 * 0.3
     * Gatsby MarkdownRemarkFrontmatter를 위해 Time Paser Format 변경
 * 0.2
