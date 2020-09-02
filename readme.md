@@ -4,6 +4,8 @@
 
 > Tistory의 OpenAPI를 사용하여 게시글과 이미지를 MarkDown으로 백업하는 프로젝트 입니다.
 
+> **tistory-api에서 [Implicit 방식 API 지원 제거](https://github.com/tistory/document-tistory-apis/commit/414733da3f692afde55e8d17db6cc95d3cfadc9e)를 하여 현재 토큰을 받는 부분에 대한 로직 수정이 필요하여 제대로 동작하지 않을 수 있습니다.**
+
 ## Installation
 
 (Linux & Windows) & ARCH=amd64
