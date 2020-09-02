@@ -142,7 +142,9 @@ func getPostRead(token, blogName, postID string, work *sync.WaitGroup) {
 	checkErr(err)
 
 	// Parsing title
-	title := doc.Find("tistory item slogan").Text()
+	title := doc.Find("tistory item title").Text()
+	slogan := doc.Find("tistory item slogan").Text()
+
 	// Parsing content(html)
 	content := doc.Find("tistory item content").Text()
 	// Parsing date
@@ -165,11 +167,11 @@ func getPostRead(token, blogName, postID string, work *sync.WaitGroup) {
 		"---\n"
 
 	// CreateDir
-	os.MkdirAll("./result/"+blogName+"/image/"+title, os.ModePerm)
+	os.MkdirAll("./result/"+blogName+"/image/"+slogan, os.ModePerm)
 
-	markdown := convertHTMLToMd(content, blogName, title)
+	markdown := convertHTMLToMd(content, blogName, slogan)
 
-	f, err := os.Create("./result/" + blogName + "/" + title + ".md")
+	f, err := os.Create("./result/" + blogName + "/" + slogan + ".md")
 	checkErr(err)
 	defer f.Close()
 
