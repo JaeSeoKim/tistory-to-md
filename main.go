@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"html/template"
 	"io"
 	"io/ioutil"
 	"log"
@@ -22,7 +23,8 @@ import (
 var mu sync.RWMutex
 
 // TISTORY APP_ID
-const clientURL = "c7a92e9bd27df7b405ea3678e03eb460"
+const secretKey = "c7a92e9bd27df7b405ea3678e03eb460981968cada5a658446c98e955ebd1711bcfe26e9"
+const clientID = "c7a92e9bd27df7b405ea3678e03eb460"
 
 // redirectURL은 Tistroy App CallURL로 설정이 되어 있어야지 작동합니다.
 const port = "8080"
@@ -63,10 +65,27 @@ func getTokenServe() {
 	color.Info.Prompt(redirectURL + "를 통하여 서버가 실행 되었습니다.")
 	printGetTokenNotice()
 	http.HandleFunc("/", func(res http.ResponseWriter, req *http.Request) {
-		res.Header().Set("Content-type", "text/html")
-		dat, err := ioutil.ReadFile("./http/index.html")
+		code, ok := req.URL.Query()["code"]
+		if !ok || len(code[0]) < 1 {
+			log.Println("Url Param 'code' is missing")
+			fmt.Fprintf(res, "error")
+			return
+		}
+		URL := "https://www.tistory.com/oauth/access_token?" +
+			"client_id=" + clientID +
+			"&client_secret=" + secretKey +
+			"&redirect_uri=" + redirectURL +
+			"&code=" + code[0] +
+			"&grant_type=" + "authorization_code"
+		resGet, err := http.Get(URL)
+		checkRes(resGet, err)
+
+		bodyBytes, err := ioutil.ReadAll(resGet.Body)
 		checkErr(err)
-		fmt.Fprintf(res, string(dat))
+
+		t, err := template.ParseFiles("./http/index.html")
+		checkErr(err)
+		t.Execute(res, strings.Split(string(bodyBytes), "=")[1])
 	})
 
 	http.ListenAndServe(":"+port, nil)
@@ -74,9 +93,6 @@ func getTokenServe() {
 
 func getPostLists(token string) ([]string, string) {
 	var postLists []string
-
-	// mu.Lock()
-	// defer mu.Unlock()
 
 	// API를 호출하여 사용자의 BLOG Name, Post Count를 가져옴
 	URL := "https://www.tistory.com/apis/blog/info?access_token=" + token + "&output=xml"
@@ -217,11 +233,10 @@ func convertHTMLToMd(html, blogName, title string) string {
 				path := "./result/" + blogName + "/image/" + title + "/" + fileName
 				saveImage(imageURL, path)
 				return "<img src='./image/" + title + "/" + fileName + "' />"
-			} else {
-				color.Warn.Println("예외 문자(첨부파일로 예상됨..)")
-				fmt.Println(s)
-				return ""
 			}
+			color.Warn.Println("예외 문자(첨부파일로 예상됨..)")
+			fmt.Println(s)
+			return ""
 		}
 		imageURL := src
 		if strings.Split(imageURL, ":")[0] == "https" || strings.Split(imageURL, ":")[0] == "http" {
@@ -299,8 +314,8 @@ func askForConfirmation(s string) bool {
 // Token 안내 메세지
 func printGetTokenNotice() {
 	color.Error.Println("*중요*")
-	color.Primary.Println("https://www.tistory.com/oauth/authorize?client_id=" + clientURL +
-		"&redirect_uri=" + redirectURL + "&response_type=token")
+	color.Primary.Println("https://www.tistory.com/oauth/authorize?client_id=" + clientID +
+		"&redirect_uri=" + redirectURL + "&response_type=code")
 	color.Notice.Println("URL로 들어가 Tistory 인증후 화면에 나오는 AccessToken를 입력해주세요!")
 }
 

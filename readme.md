@@ -4,7 +4,12 @@
 
 > Tistory의 OpenAPI를 사용하여 게시글과 이미지를 MarkDown으로 백업하는 프로젝트 입니다.
 
-> **tistory-api에서 [Implicit 방식 API 지원 제거](https://github.com/tistory/document-tistory-apis/commit/414733da3f692afde55e8d17db6cc95d3cfadc9e)를 하여 현재 토큰을 받는 부분에 대한 로직 수정이 필요하여 제대로 동작하지 않을 수 있습니다.**
+Tistory에서 API키에 대해 제한을 걸 경우 main.go에 있는 secretKey와 clientID를 발급 받아서 수정하여 사용해주세요!
+``` go
+// TISTORY APP_ID
+const secretKey = "**********************************************"
+const clientID = "**********************************************"
+```
 
 ## Installation
 
@@ -35,6 +40,8 @@ URL로 들어가 Tistory 인증후 화면에 나오는 AccessToken를 입력해�
 
 ## Release History
 
+* 0.6
+    * FIX: API 토큰 Implicit방식에서 Authentication Code 방식으로 수정!
 * 0.5
     * FIX: frontmatter title 수정
 * 0.4

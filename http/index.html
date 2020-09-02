@@ -8,16 +8,6 @@
   <body>
     <h1>access_token</h1>
     <p>아래의 access_token를 복사해주세요.</p>
-    <textarea style="width: 600px; height: 200px" id="token"></textarea>
-    <script>
-      var tokenBody = document.getElementById("token");
-      var hash = window.location.hash.substring(1);
-      var params = {};
-      hash.split("&").map((hk) => {
-        let temp = hk.split("=");
-        params[temp[0]] = temp[1];
-      });
-      tokenBody.innerText = params.access_token;
-    </script>
+    <textarea style="width: 600px; height: 200px" id="token">{{.}}</textarea>
   </body>
 </html>
